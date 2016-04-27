@@ -1,0 +1,14 @@
+DISPLAY_RS = 7
+DISPLAY_E  = 8
+DISPLAY_DATA4 = 25
+DISPLAY_DATA5 = 24
+DISPLAY_DATA6 = 23
+DISPLAY_DATA7 = 18
+
+DISPLAY_WIDTH = 16 	# Zeichen je Zeile
+DISPLAY_LINE_1 = 0x80 	# Adresse der ersten Display Zeile
+DISPLAY_LINE_2 = 0xC0 	# Adresse der zweiten Display Zeile
+DISPLAY_CHR = True
+DISPLAY_CMD = False
+E_PULSE = 0.00005
+E_DELAY = 0.00005
