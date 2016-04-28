@@ -15,17 +15,17 @@ lcd.init()
 
 last_time = datetime.datetime.now()
 last_minute = last_time.minute
-probes_one_minute = circular_buffer.CircularBuffer(size=30)
-probes_five_minutes = circular_buffer.CircularBuffer(size=5)
-probes_fifteen_minutes = circular_buffer.CircularBuffer(size=15)
-probes_thirty_minutes = circular_buffer.CircularBuffer(size=30)
+probe_minute_01 = circular_buffer.CircularBuffer(size=30)
+probe_minute_15 = circular_buffer.CircularBuffer(size=15)
+probes_minute_30 = circular_buffer.CircularBuffer(size=30)
+probes_minute_60 = circular_buffer.CircularBuffer(size=60)
 
 # initialize buffers
 current_temperature = sensor.read()
-probes_one_minute.append(current_temperature)
-probes_five_minutes.append(current_temperature)
-probes_fifteen_minutes.append(current_temperature)
-probes_thirty_minutes.append(current_temperature)
+probe_minute_01.append(current_temperature)
+probe_minute_15.append(current_temperature)
+probes_minute_30.append(current_temperature)
+probes_minute_60.append(current_temperature)
 
 while True:
     try:
@@ -33,19 +33,19 @@ while True:
         current_minute = current_time.minute
         current_temperature = sensor.read()
 
-        probes_one_minute.append(current_temperature)
+        probe_minute_01.append(current_temperature)
 
         lcd.top("{:2.1f}".format(current_temperature) + chr(223) + "C  " + current_time.strftime("%H:%M:%S"))
 
         if last_minute != current_minute:
-            probes_five_minutes.append(current_temperature)
-            probes_fifteen_minutes.append(current_temperature)
-            probes_thirty_minutes.append(current_temperature)
-            csv.append(
-                current_time.strftime("%s") + ";" + current_time.isoformat() + ";" + "{:2,1f}".format(current_temperature) + "\n")
+            probe_minute_15.append(current_temperature)
+            probes_minute_30.append(current_temperature)
+            probes_minute_60.append(current_temperature)
+            csv.append(current_time.strftime("%s") + ";" + current_time.isoformat() + ";" + "{:2.1f}".format(
+                current_temperature).replace('.', ',') + "\n")
 
-        lcd.bottom("{:2.1f}".format(probes_thirty_minutes.average) + chr(223) + " " + "{:2.1f}".format(
-            probes_fifteen_minutes.average) + chr(223) + " " + "{:2.1f}".format(probes_five_minutes.average) + chr(223))
+        lcd.bottom("{:2.1f}".format(probes_minute_60.average) + chr(223) + " " + "{:2.1f}".format(
+            probes_minute_30.average) + chr(223) + " " + "{:2.1f}".format(probe_minute_15.average) + chr(223))
 
         time.sleep(2)
 
