@@ -41,7 +41,8 @@ while True:
             probes_five_minutes.append(current_temperature)
             probes_fifteen_minutes.append(current_temperature)
             probes_thirty_minutes.append(current_temperature)
-            csv.append(current_time.strftime("%s") + ";" + str(current_temperature))
+            csv.append(
+                current_time.strftime("%s") + ";" + current_time.isoformat() + ";" + "{:2,1f}".format(current_temperature) + "\n")
 
         lcd.bottom("{:2.1f}".format(probes_thirty_minutes.average) + chr(223) + " " + "{:2.1f}".format(
             probes_fifteen_minutes.average) + chr(223) + " " + "{:2.1f}".format(probes_five_minutes.average) + chr(223))
