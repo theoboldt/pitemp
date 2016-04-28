@@ -54,3 +54,4 @@ while True:
 
     except KeyboardInterrupt:
         lcd.cleanup()
+        sys.exit(0)
