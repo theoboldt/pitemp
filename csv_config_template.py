@@ -1,1 +1,1 @@
-CSV_PATH = '/mnt/result/temperature.csv'
+CSV_PATH = 'temperature.csv'
