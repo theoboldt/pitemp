@@ -33,15 +33,22 @@ while True:
         current_minute = current_time.minute
         current_temperature = sensor.read()
 
+        if current_temperature == 9999:
+            lcd.top("Temperature")
+            lcd.bottom("Failed to read")
+            lcd.cleanup()
+            sys.exit(0)
+
         probe_minute_01.append(current_temperature)
 
         lcd.top("{:2.1f}".format(current_temperature) + chr(223) + "C  " + current_time.strftime("%H:%M:%S"))
 
         if last_minute != current_minute:
+            lcd.display_init()
             probe_minute_15.append(current_temperature)
             probes_minute_30.append(current_temperature)
             probes_minute_60.append(current_temperature)
-            csv.append(current_time.strftime("%s") + ";" + current_time.isoformat() + ";" + "{:2.1f}".format(
+            csv.append(current_time.strftime("%s") + ";" + str(current_time) + ";" + "{:2.1f}".format(
                 current_temperature).replace('.', ',') + "\n")
 
         lcd.bottom("{:2.1f}".format(probes_minute_60.average) + chr(223) + " " + "{:2.1f}".format(
